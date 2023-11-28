@@ -14,9 +14,9 @@ import BottomPopUp from "../../components/BottomPopUp/BottomPopUp";
 const Home = () => {
     const navigation = useNavigation();
     const [apiData, setApiData] = useState([])
-    let isIOS = Platform.OS === 'ios';
     const [isVisible, setIsVisible] = useState(false);
     const {data, isPending, error} = useProductsApi();
+
     // const {data, isPending, error} = useMovieApi();
 
 
@@ -27,14 +27,8 @@ const Home = () => {
     return (
         <SafeAreaView style={styles.container}>
             <ProductList data={apiData} isPending={isPending} error={error}
-                         renderItem={({item, index}) => <ProductItem navigation={navigation} item={item}/>}/>
-           {/* <MovieList
-                data={data}
-                isPending={isPending}
-                error={error}
-                renderItem={({item, index}) =>
-                    <MovieItem navigation={navigation} item={item}/>}/>*/}
-
+                         renderItem={({item, index}) => <ProductItem index={index} navigation={navigation}
+                                                                     item={item}/>}/>
             <TouchableOpacity
                 onPress={() => setIsVisible(true)}
                 activeOpacity={0.7} style={{
@@ -50,7 +44,8 @@ const Home = () => {
             }}>
                 <MaterialIcons name="add" size={30} color="#000"/>
             </TouchableOpacity>
-            <BottomPopUp isVisible={isVisible} onSubmit={() => {}} onClose={() => setIsVisible(false)}/>
+            <BottomPopUp isVisible={isVisible} onSubmit={() => {
+            }} onClose={() => setIsVisible(false)}/>
         </SafeAreaView>
     );
 }

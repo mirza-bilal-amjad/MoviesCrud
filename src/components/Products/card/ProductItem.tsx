@@ -2,6 +2,9 @@ import React, {memo} from "react";
 import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import * as PropTypes from "prop-types";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
+import {Ionicons, MaterialIcons} from "@expo/vector-icons";
+import {removeItem} from "../../../store/Product";
+import {useDispatch} from "react-redux";
 
 interface ProductItemProps {
     item: {
@@ -10,6 +13,7 @@ interface ProductItemProps {
         description: string,
         image: string,
     };
+    index: number;
     navigation: NavigationProp<ReactNavigation.RootParamList>,
 }
 
@@ -17,7 +21,7 @@ export const ProductItem = memo((props: ProductItemProps) => {
     const itemDesc = props?.item?.description?.length > 70 ? props?.item?.description?.slice(0, 70) + '...' : props?.item?.description;
     const itemName = props?.item?.title;
     const itemImage = props?.item?.image;
-
+    const dispatch = useDispatch();
     return (
         <TouchableOpacity
             activeOpacity={0.7}
@@ -27,6 +31,20 @@ export const ProductItem = memo((props: ProductItemProps) => {
                 props.navigation.navigate('Details', {item: props.item})
             }}
         >
+            <TouchableOpacity activeOpacity={0.8} style={{
+                position: 'absolute',
+                right: 10,
+                top: 10,
+                zIndex: 1000,
+                backgroundColor: '#dedede',
+                borderRadius: 10,
+                padding: 5,
+                opacity: 0.8,
+            }} onPress={
+                () => dispatch(removeItem(props?.item?.id))
+            }>
+                <Ionicons name={'trash-outline'} size={20} color={'#ff6666'}/>
+            </TouchableOpacity>
             <Image source={{uri: itemImage}} style={styles.image}/>
             <Text style={styles.title}>{itemName}</Text>
             {/*<Text style={styles.description}>{itemDesc}</Text>*/}
@@ -36,21 +54,14 @@ export const ProductItem = memo((props: ProductItemProps) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        margin: 10,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        borderRadius: 10,
-        padding: 10,
+        margin: "3.5%",
+        paddingHorizontal: 15,
+        // elevation: 7,
+        rowGap: 10,
+        width: "43%",
+        borderRadius: 25,
+        // borderColor: colors.black, borderWidth: 1,
+        backgroundColor: 'white'
     },
     image: {
         width: 150,

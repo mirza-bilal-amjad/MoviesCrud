@@ -1,13 +1,25 @@
 import React, {useEffect, useState} from "react";
-import {Modal, TextInput, TouchableOpacity, View, Text, StyleSheet, Button} from "react-native";
+import {Modal, TextInput, TouchableOpacity, View, Text, StyleSheet, Button, Image} from "react-native";
 import {Ionicons, MaterialIcons} from "@expo/vector-icons";
-import {pickImage, takePicture} from "../../utils";
+import {generateID, pickImage, takePicture} from "../../utils";
 import * as ImagePicker from 'expo-image-picker';
+import {useDispatch} from "react-redux";
+import {addProductItem} from "../../store/Product";
+import uuid from 'uuid'
+import * as url from "url";
 
 interface BottomPopUpProps {
     isVisible: boolean,
     onClose: any,
     onSubmit: any,
+}
+
+interface SubmitProps {
+    title: string,
+    description: string,
+    image: {
+        _j: string,
+    },
 }
 
 const BottomPopup = ({isVisible, onClose, onSubmit}: BottomPopUpProps) => {
@@ -16,26 +28,52 @@ const BottomPopup = ({isVisible, onClose, onSubmit}: BottomPopUpProps) => {
     const [description, setDescription] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [image, setImage] = useState(null);
+    const [imageError, setImageError] = useState(null);
+    const dispatch = useDispatch();
 
 
-    function handleSubmit() {
+    const handleSubmit = (props: SubmitProps) => {
+        const image = props.image?._j;
+        console.log(image);
 
+        if (props.title === null || props.title === '') {
+            setTitleError('Title is required');
+            return;
+        } else {
+            setTitleError(null);
+        }
+        if (props.description === null || props.description === '') {
+            setDescriptionError('Description is required');
+            return;
+        } else {
+            setDescriptionError(null)
+        }
+        if (!image) {
+            setImageError('Image is required');
+            return;
+        } else {
+            setImageError(null)
+        }
+
+        const data = [{
+            id: generateID(),
+            title: props.title,
+            description: props.description,
+            image: props.image?._j,
+        }]
+        dispatch(addProductItem(data))
+        onClose();
     }
 
     const close = () => {
         setTitle('');
         setDescription('');
-
+        setImage(null)
         onClose();
     }
 
     useEffect(() => {
-        (async () => {
-            const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
-            if (status !== 'granted') {
-                console.error('Permission to access media library was denied!');
-            }
-        })();
+
     }, []);
 
     return (
@@ -82,11 +120,60 @@ const BottomPopup = ({isVisible, onClose, onSubmit}: BottomPopUpProps) => {
                                    onChangeText={(value) => setDescription(value)}></TextInput>
                     </View>
                     {descriptionError ? <Text style={styles.error}>{descriptionError}</Text> : <Text> </Text>}
-                    <TouchableOpacity  onPress={() => pickImage()}>
-                        <Text>
+                    {!image ? <TouchableOpacity onPress={() => {
+                            setImage(
+                                takePicture()
+                            );
+                        }}
+                                                style={{
+                                                    justifyContent: 'center',
+                                                    height: 50,
+                                                    alignItems: 'center',
+                                                    borderTopLeftRadius: 15,
+                                                    borderTopRightRadius: 15,
+                                                    backgroundColor: '#dedede',
+                                                    borderWidth: 1,
+                                                }}
+                        >
+                            <Ionicons name={'camera-outline'} color={'black'} size={25}/>
+                        </TouchableOpacity> :
+                        <View style={{
+                            height: 50,
+                            backgroundColor: '#dedede',
+                            overflow: 'hidden',
+                            borderTopLeftRadius: 15,
+                            borderTopRightRadius: 15,
+                            borderWidth: 1,
+                        }}><Image source={{uri: image?._j}} style={{
+                            width: '100%', aspectRatio: 16 / 9,
+                            resizeMode: 'cover', alignSelf: 'center'
+                        }}/></View>
+                    }
+                    <TouchableOpacity onPress={() => {
+                        setImage(
+                            pickImage()
+                        );
+                    }}
+                                      style={{
+                                          justifyContent: 'center',
+                                          height: 30,
+                                          alignItems: 'center',
+                                          borderBottomLeftRadius: 15,
+                                          borderBottomRightRadius: 15,
+                                          borderBottomWidth: 1,
+                                          borderLeftWidth: 1,
+                                          borderRightWidth: 1,
+                                      }}
+                    >
+                        <Text style={{
+                            textDecorationLine: 'underline',
+                            textAlign: 'center',
+                        }}>
                             Take a picture
                         </Text>
                     </TouchableOpacity>
+                    {imageError ? <Text style={styles.error}>{imageError}</Text> : <Text> </Text>}
+
                     <View style={{flexDirection: "row-reverse", top: 10, justifyContent: 'space-between',}}>
 
                         <TouchableOpacity style={{
@@ -100,7 +187,13 @@ const BottomPopup = ({isVisible, onClose, onSubmit}: BottomPopUpProps) => {
                             borderWidth: 3,
                             elevation: 7,
                             shadowColor: 'black',
-                        }} onPress={handleSubmit} activeOpacity={0.87}>
+                        }} onPress={() => handleSubmit(
+                            {
+                                title: title,
+                                description: description,
+                                image: image,
+                            }
+                        )} activeOpacity={0.87}>
                             <Text style={{color: 'black', fontSize: 15, fontWeight: '700'}}>Submit</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{
