@@ -15,7 +15,7 @@ const Header = (props: HeaderProps) => {
     return (
         <View style={{
             position: 'relative',
-            backgroundColor: 'transparent',
+            backgroundColor: '#fff',
             width: '100%',
             height: 40,
             zIndex: 100,

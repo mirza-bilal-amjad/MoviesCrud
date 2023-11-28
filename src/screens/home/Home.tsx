@@ -13,14 +13,19 @@ import BottomPopUp from "../../components/BottomPopUp/BottomPopUp";
 
 const Home = () => {
     const navigation = useNavigation();
+    const [apiData, setApiData] = useState([])
     let isIOS = Platform.OS === 'ios';
     const [isVisible, setIsVisible] = useState(false);
     const {data, isPending, error} = useProductsApi();
     // const {data, isPending, error} = useMovieApi();
 
+    useEffect(() => {
+        setApiData(data);
+    }, [data]);
+
     return (
         <SafeAreaView style={styles.container}>
-            <ProductList data={data} isPending={isPending} error={error}
+            <ProductList data={apiData} isPending={isPending} error={error}
                          renderItem={({item, index}) => <ProductItem navigation={navigation} item={item}/>}/>
            {/* <MovieList
                 data={data}

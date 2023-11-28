@@ -1,4 +1,4 @@
-import {View, Text, SafeAreaView, StyleSheet, Image} from 'react-native'
+import {View, Text, SafeAreaView, StyleSheet, Image, StatusBar} from 'react-native'
 import React from 'react'
 import BigImage from "../../components/Detail/ImageCard/BigImage";
 import Header from "../../components/Header/Header";
@@ -21,32 +21,39 @@ const Detail = (props: DetailProps) => {
     const item = props?.route?.params?.item;
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} animated translucent/>
             <Header left={'arrow-back-ios'} middle={''} right={''}/>
+            <View style={{
+                position: 'relative',
 
-            <BigImage
-                title={item?.title}
-                source={{uri: item?.image}}
-
-                sourceBig={{uri: item.image}}
-                image1Style={{
-                    width: '100%',
-                    height: 300,
-                    resizeMode: 'contain',
-                }}
-                image2Style={{
-                    width: 90,
-                    aspectRatio: 9 / 14,
-                    left: 10,
-                    borderRadius: 10,
-                    resizeMode: 'contain',
-                }}
-                style={{
-                    width: '100%',
-                    position: 'absolute',
-                }}/>
-
+            }}>
+                <BigImage
+                    title={item?.title}
+                    source={{uri: item?.image}}
+                    description={item?.description}
+                    sourceBig={{uri: item.image}}
+                    image1Style={{
+                        width: '100%',
+                        height: 300,
+                        resizeMode: 'center',
+                        backgroundColor: 'white',
+                        borderBottomRightRadius: 30,
+                        borderBottomLeftRadius: 30,
+                    }}
+                    image2Style={{
+                        width: 100,
+                        height: 160,
+                        left: 10,
+                        borderRadius: 10,
+                        resizeMode: 'contain',
+                    }}
+                    style={{
+                        width: '100%',
+                        backgroundColor: '#555',
+                    }}/>
+            </View>
             <Text
-                style={{color: '#fff', fontSize: 16, fontWeight: 'bold', margin: 10, marginTop: 420}}>Description</Text>
+                style={{color: '#fff', margin: 10, fontSize: 16, fontWeight: 'bold',}}>Description</Text>
             <Text
                 style={{
                     color: '#fff',
@@ -55,13 +62,14 @@ const Detail = (props: DetailProps) => {
                     marginHorizontal: 10
                 }}>{item?.description}</Text>
         </SafeAreaView>
-    );
+    )
+        ;
 }
 export default Detail
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, backgroundColor: "#1c2028",
+        flex: 1, backgroundColor: "#555",
         paddingBottom: 10,
     },
     image: {

@@ -16,13 +16,13 @@ const App = () => {
             flex: 1,
             top: StatusBar.currentHeight,
         }}>
-            <StatusBar barStyle={'light-content'} backgroundColor={'#1c2028'} animated translucent/>
+            <StatusBar barStyle={'dark-content'} backgroundColor={'#dedede'} animated translucent/>
             <NavigationContainer>
                 <Stack.Navigator>
                     <Stack.Screen name="Home" component={Home} options={{
-                        headerTitleStyle: {fontSize: 20, color: 'white', fontWeight: 'bold'},
+                        headerTitleStyle: {fontSize: 20, color: 'black', fontWeight: 'bold'},
                         headerStyle: {
-                            backgroundColor: '#1c2028',
+                            backgroundColor: '#dedede',
                             shadowColor: 'transparent',
                         },
 

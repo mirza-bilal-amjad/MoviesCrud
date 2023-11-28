@@ -1,6 +1,8 @@
-import React, {useState} from "react";
-import {Modal, TextInput, TouchableOpacity, View, Text, StyleSheet} from "react-native";
+import React, {useEffect, useState} from "react";
+import {Modal, TextInput, TouchableOpacity, View, Text, StyleSheet, Button} from "react-native";
 import {Ionicons, MaterialIcons} from "@expo/vector-icons";
+import {pickImage} from "../../utils";
+import * as ImagePicker from 'expo-image-picker';
 
 interface BottomPopUpProps {
     isVisible: boolean,
@@ -19,58 +21,78 @@ const BottomPopup = ({isVisible, onClose, onSubmit}: BottomPopUpProps) => {
     function handleSubmit() {
 
     }
+
     const close = () => {
+        setTitle('');
+        setDescription('');
+
         onClose();
     }
+
+    useEffect(() => {
+        (async () => {
+            const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                console.error('Permission to access media library was denied!');
+            }
+        })();
+    }, []);
 
     return (
         <Modal visible={isVisible} animationType="slide" transparent onRequestClose={onClose}>
             <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
                 <View style={{
-                    // alignItems: 'center',
                     paddingHorizontal: "7.5%",
                     minHeight: 350,
                     borderTopRightRadius: 30,
                     borderTopLeftRadius: 30,
-                    backgroundColor: '#1c2028',
+                    backgroundColor: '#fff',
                     padding: 50,
                     elevation: 7,
                 }}>
 
-                    <View style={styles.tiCont}>
+                    <View style={[styles.tiCont, {
+                        height: 45,
+                    }]}>
                         <Ionicons style={{paddingRight: 5}} name={'person-circle-outline'} color={'black'}
                                   size={25}/>
                         <TextInput placeholderTextColor={'black'} value={title} textContentType='name'
                                    keyboardType='default' autoCapitalize='none' autoComplete={"name"}
-                                   style={styles.textInput} placeholder='Name' cursorColor={'black'}
+                                   style={styles.textInput} placeholder='Title' cursorColor={'black'}
                                    selectionColor={'gray'}
                                    onChangeText={(value) => setTitle(value)}></TextInput>
                     </View>
                     {titleError ? <Text style={styles.error}>{titleError}</Text> : <Text> </Text>}
 
-                    <View style={styles.tiCont}>
+                    <View style={[styles.tiCont, {
+                        minHeight: 45,
+                        maxHeight: 130,
+                    }]}>
                         <Ionicons style={{paddingRight: 5}} name='barcode-outline' color={'black'}
                                   size={25}></Ionicons>
-                        <TextInput placeholderTextColor={'black'} value={description} textContentType='nickname'
+                        <TextInput placeholderTextColor={'black'}
+                                   multiline={true}
+                                   value={description} textContentType='nickname'
                                    keyboardType='default'
                                    secureTextEntry={true}
                                    autoComplete={"postal-code"}
                                    autoCapitalize='none' style={styles.textInput} cursorColor={'black'}
                                    selectionColor={'gray'}
-                                   placeholder='Order id'
+                                   placeholder='Description'
                                    onChangeText={(value) => setDescription(value)}></TextInput>
                     </View>
                     {descriptionError ? <Text style={styles.error}>{descriptionError}</Text> : <Text> </Text>}
-
-                    <View style={{flexDirection: "row-reverse", justifyContent: 'space-between',}}>
+                    <Button title={'Upload Image'} onPress={() => pickImage()}/>
+                    <View style={{flexDirection: "row-reverse", top: 10, justifyContent: 'space-between',}}>
 
                         <TouchableOpacity style={{
-                            padding: 15,
+                            justifyContent: 'center',
+                            height: 50,
                             minWidth: 100,
                             backgroundColor: 'gray',
                             alignItems: 'center',
                             borderRadius: 35,
-                            borderColor: '#fefefe',
+                            borderColor: 'white',
                             borderWidth: 3,
                             elevation: 7,
                             shadowColor: 'black',
@@ -78,18 +100,21 @@ const BottomPopup = ({isVisible, onClose, onSubmit}: BottomPopUpProps) => {
                             <Text style={{color: 'black', fontSize: 15, fontWeight: '700'}}>Submit</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{
-                            padding: 15,
+                            justifyContent: 'center',
+                            height: 50,
                             minWidth: 100,
                             backgroundColor: 'gray',
                             alignItems: 'center',
                             borderRadius: 35,
-                            borderColor: 'gray',
+                            borderColor: 'white',
                             borderWidth: 3,
                             elevation: 7,
                             shadowColor: 'black',
                         }} onPress={close} activeOpacity={0.87}>
                             <Text style={{color: 'black', fontSize: 15, fontWeight: '700'}}>Cancel</Text>
                         </TouchableOpacity>
+
+
                     </View>
                 </View>
             </View>
@@ -108,7 +133,7 @@ const styles = StyleSheet.create({
         paddingTop: 2,
         paddingBottom: 2,
         backgroundColor: 'gray',
-        borderRadius: 20,
+        borderRadius: 10,
         elevation: 7,
         borderColor: 'gray',
         borderWidth: 3,
