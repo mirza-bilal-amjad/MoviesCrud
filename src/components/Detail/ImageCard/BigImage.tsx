@@ -25,7 +25,7 @@ const BigImage = (props: ImageProps) => {
                 <View style={{height: 90,}}>
 
                     <Text
-                        style={{color: '#fff', fontSize: 18, fontWeight: 'bold', marginLeft: 20, marginTop: 65, justifyContent: 'center'}}>{props?.title}</Text>
+                        style={{color: '#fff', fontSize: 15, fontWeight: 'bold', marginLeft: 20, marginTop: 65, justifyContent: 'center'}}>{props?.title}</Text>
                     <View style={{marginLeft: 20, marginTop: 10, flexDirection: 'row', alignItems: 'center'}}>
                         <MaterialIcons
                             name={'star'} size={13} color={'#bcd70c'}/>

@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
 import {instance2} from "../constants/constants";
 import axios from "axios/index";
+import * as FileSystem from 'expo-file-system';
 
 export const useMovieApi = () => {
+
     const [data, setData] = useState();
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
@@ -17,6 +19,18 @@ export const useMovieApi = () => {
             }
         };
 
+        const saveDataToFile = async (data: any) => {
+            const fileUri = FileSystem.documentDirectory + 'data.json';
+
+            try {
+                // Write the data to the file
+                await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(data));
+
+                console.log('Data saved to file:', fileUri);
+            } catch (error) {
+                console.error('Error saving data to file:', error);
+            }
+        };
 
         try {
             const response = await axios.request(options);

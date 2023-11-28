@@ -11,7 +11,7 @@ interface MovieListProps {
 export const MovieList = memo((props: MovieListProps) => {
     return <View style={styles.container}>
         {props.isPending ?
-            <ActivityIndicator size="large" color="#000" style={styles.container}/>
+            <ActivityIndicator size="large" color="#fff" style={styles.container}/>
             : <FlatList initialNumToRender={10}
                         keyExtractor={(item, index) => index.toString()}
                         windowSize={20}

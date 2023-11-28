@@ -24,7 +24,7 @@ export const ProductItem = memo((props: ProductItemProps) => {
             style={styles.container}
             onPress={() => {
                 // @ts-ignore
-                props.navigation.navigate('ProductDetail', {item: props.item})
+                props.navigation.navigate('Details', {item: props.item})
             }}
         >
             <Image source={{uri: itemImage}} style={styles.image}/>

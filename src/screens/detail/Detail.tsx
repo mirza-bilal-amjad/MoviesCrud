@@ -8,12 +8,10 @@ interface DetailProps {
     route: {
         params: {
             item: {
-                image: any,
-                big_image: any,
+                id: number,
                 title: string,
-                rating: string,
-                year: number | string,
                 description: string,
+                image: string,
             }
         }
     }
@@ -21,29 +19,26 @@ interface DetailProps {
 
 const Detail = (props: DetailProps) => {
     const item = props?.route?.params?.item;
-    console.log(item)
-
     return (
         <SafeAreaView style={styles.container}>
             <Header left={'arrow-back-ios'} middle={''} right={''}/>
 
             <BigImage
                 title={item?.title}
-                rating={item?.rating}
-                releaseDate={item?.year}
                 source={{uri: item?.image}}
 
-                sourceBig={{uri: item.big_image}}
+                sourceBig={{uri: item.image}}
                 image1Style={{
                     width: '100%',
                     height: 300,
-                    resizeMode: 'cover',
+                    resizeMode: 'contain',
                 }}
                 image2Style={{
                     width: 90,
                     aspectRatio: 9 / 14,
                     left: 10,
                     borderRadius: 10,
+                    resizeMode: 'contain',
                 }}
                 style={{
                     width: '100%',
