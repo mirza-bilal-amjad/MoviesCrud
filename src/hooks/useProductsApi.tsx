@@ -9,7 +9,6 @@ export const useProductsApi = () => {
     const fetchData = async () => {
         try {
             const response = await instance.get('/products')
-            console.log('response', response.data)
             setData(response.data)
         } catch (e) {
             setError(e)
