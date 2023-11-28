@@ -19,6 +19,7 @@ const Home = () => {
     const {data, isPending, error} = useProductsApi();
     // const {data, isPending, error} = useMovieApi();
 
+
     useEffect(() => {
         setApiData(data);
     }, [data]);

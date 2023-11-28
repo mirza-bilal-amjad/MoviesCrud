@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Modal, TextInput, TouchableOpacity, View, Text, StyleSheet, Button} from "react-native";
 import {Ionicons, MaterialIcons} from "@expo/vector-icons";
-import {pickImage} from "../../utils";
+import {pickImage, takePicture} from "../../utils";
 import * as ImagePicker from 'expo-image-picker';
 
 interface BottomPopUpProps {
@@ -82,14 +82,18 @@ const BottomPopup = ({isVisible, onClose, onSubmit}: BottomPopUpProps) => {
                                    onChangeText={(value) => setDescription(value)}></TextInput>
                     </View>
                     {descriptionError ? <Text style={styles.error}>{descriptionError}</Text> : <Text> </Text>}
-                    <Button title={'Upload Image'} onPress={() => pickImage()}/>
+                    <TouchableOpacity  onPress={() => pickImage()}>
+                        <Text>
+                            Take a picture
+                        </Text>
+                    </TouchableOpacity>
                     <View style={{flexDirection: "row-reverse", top: 10, justifyContent: 'space-between',}}>
 
                         <TouchableOpacity style={{
                             justifyContent: 'center',
                             height: 50,
                             minWidth: 100,
-                            backgroundColor: 'gray',
+                            backgroundColor: '#dedede',
                             alignItems: 'center',
                             borderRadius: 35,
                             borderColor: 'white',
@@ -103,7 +107,7 @@ const BottomPopup = ({isVisible, onClose, onSubmit}: BottomPopUpProps) => {
                             justifyContent: 'center',
                             height: 50,
                             minWidth: 100,
-                            backgroundColor: 'gray',
+                            backgroundColor: '#dedede',
                             alignItems: 'center',
                             borderRadius: 35,
                             borderColor: 'white',
