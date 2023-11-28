@@ -1,5 +1,5 @@
 import {SafeAreaView, StatusBar, StyleSheet} from 'react-native'
-import React from 'react'
+import React, {useEffect} from 'react'
 import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer} from "@react-navigation/native";
 import Home from "./src/screens/home/Home";
@@ -7,11 +7,22 @@ import Detail from "./src/screens/detail/Detail";
 import Header from './src/components/Header/Header';
 import {Provider} from "react-redux";
 import store from "./src/store/store";
+import * as ImagePicker from "expo-image-picker";
 
 
 const Stack = createStackNavigator()
 
 const App = () => {
+    useEffect(
+        () => {
+            (async () => {
+                const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== 'granted') {
+                    console.error('Permission to access media library was denied!');
+                }
+            })();
+        }, []
+    )
 
     return (
         <Provider store={store}>

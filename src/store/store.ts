@@ -1,13 +1,22 @@
-import {createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
-import {combineReducers} from 'redux';
-import ProductReducer from "./Product";
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {setupListeners} from '@reduxjs/toolkit/query';
 
-const rootReducer = combineReducers({
-    counter: ProductReducer,
+import {productReducer} from "./Product";
+
+const reducers = combineReducers({
+    productReducer,
 });
 
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = configureStore({
+    reducer: reducers,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false
+        })
+});
+
+
+setupListeners(store.dispatch);
 
 export default store;
