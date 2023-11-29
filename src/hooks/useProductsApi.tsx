@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {instance} from "../constants/constants";
 import {useDispatch, useSelector} from "react-redux";
-import {addProductItem} from "../store/Product";
+import {addProductItem, setData} from "../store/Product";
 
 export const useProductsApi = () => {
     const data = useSelector((state: any) => state.productReducer.data);
@@ -11,7 +11,7 @@ export const useProductsApi = () => {
     const fetchData = async () => {
         try {
             const response = await instance.get('/products')
-            dispatch(addProductItem(response.data))
+            dispatch(setData(response.data))
         } catch (e) {
             setError(e)
         } finally {
@@ -21,6 +21,6 @@ export const useProductsApi = () => {
     useEffect(() => {
         fetchData();
     }, []);
-    return {data, isPending, error}
+    return {data, isPending, error, fetchData}
 
 }

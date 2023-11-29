@@ -31,23 +31,14 @@ export const ProductItem = memo((props: ProductItemProps) => {
                 props.navigation.navigate('Details', {item: props.item})
             }}
         >
-            <TouchableOpacity activeOpacity={0.8} style={{
-                position: 'absolute',
-                right: 10,
-                top: 10,
-                zIndex: 1000,
-                backgroundColor: '#dedede',
-                borderRadius: 10,
-                padding: 5,
-                opacity: 0.8,
-            }} onPress={
-                () => dispatch(removeItem(props?.item?.id))
-            }>
+            <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.deleteIcon}
+                onPress={() => dispatch(removeItem(props?.item?.id))}>
                 <Ionicons name={'trash-outline'} size={20} color={'#ff6666'}/>
             </TouchableOpacity>
             <Image source={{uri: itemImage}} style={styles.image}/>
             <Text style={styles.title}>{itemName}</Text>
-            {/*<Text style={styles.description}>{itemDesc}</Text>*/}
         </TouchableOpacity>
     );
 })
@@ -64,9 +55,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     image: {
+        marginTop: 10,
         width: 150,
         height: 150,
-        resizeMode: "contain",
+        resizeMode: "center",
     },
     title: {
         fontSize: 14,
@@ -84,4 +76,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
     },
+    deleteIcon: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
+        zIndex: 1000,
+        backgroundColor: '#dedede',
+        borderRadius: 10,
+        padding: 5,
+        opacity: 0.8,
+    }
 })
