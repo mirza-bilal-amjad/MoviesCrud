@@ -44,7 +44,7 @@ const BottomPopup = ({isVisible, onClose, onSubmit}: BottomPopUpProps) => {
 
     const handleSubmit = (props: SubmitProps) => {
         const image = props.image?._j;
-        console.log(image);
+
 
         if (props.title === null || props.title === '') {
             setTitleError('Title is required');

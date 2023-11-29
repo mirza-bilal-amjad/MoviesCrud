@@ -12,10 +12,12 @@ export const productSliceReducer = createSlice({
             state.data = action.payload;
         },
         addProductItem: (state, action) => {
-            if (state.data && !state.data.includes(action.payload)) {
+            const exists = state.data.some(item => item.id === action.payload[0].id);
+            console.log(exists)
+            if (state.data && !exists) {
                 state.data.push(...action.payload)
             } else
-                return state.data;
+                return state;
         },
         removeItem: (state, action) => {
             state.data = state.data.filter((item: any, index: number) => item.id !== action.payload)
