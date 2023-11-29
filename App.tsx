@@ -4,7 +4,6 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer} from "@react-navigation/native";
 import Home from "./src/screens/home/Home";
 import Detail from "./src/screens/detail/Detail";
-import Header from './src/components/Header/Header';
 import {Provider} from "react-redux";
 import store from "./src/store/store";
 import * as ImagePicker from "expo-image-picker";
@@ -39,8 +38,6 @@ const App = () => {
                                 backgroundColor: '#dedede',
                                 shadowColor: 'transparent',
                             },
-
-
                         }}/>
                         <Stack.Screen name="Details" component={Detail} options={{
                             headerTitleStyle: {fontSize: 18, margin: 0, padding: 0},

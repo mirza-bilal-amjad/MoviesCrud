@@ -8,6 +8,9 @@ export const productSliceReducer = createSlice({
     name: 'productSliceReducer',
     initialState,
     reducers: {
+        setData: (state, action) => {
+            state.data = action.payload;
+        },
         addProductItem: (state, action) => {
             if (state.data && !state.data.includes(action.payload)) {
                 state.data.push(...action.payload)
@@ -20,6 +23,6 @@ export const productSliceReducer = createSlice({
     },
 });
 
-export const {addProductItem, removeItem} = productSliceReducer.actions;
+export const {addProductItem, removeItem, setData} = productSliceReducer.actions;
 
 export const productReducer = productSliceReducer.reducer;
