@@ -1,10 +1,33 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
+import { render, waitFor } from '@testing-library/react-native';
 import App from './App';
 
-test('renders without crashing', async () => {
-    render(<App />);
+// Mock the ImagePicker module
+jest.mock('expo-image-picker', () => ({
+    requestMediaLibraryPermissionsAsync: jest.fn(() => ({ status: 'granted' })),
+    requestCameraPermissionsAsync: jest.fn(() => ({ status: 'granted' })),
+}));
 
-    // You can add more test cases or assertions as needed
+// Mock the StatusBar module
+jest.mock('expo-status-bar', () => ({
+    StatusBar: jest.fn(),
+}));
+
+describe('<App />', () => {
+    it('renders without crashing', async () => {
+        render(<App />);
+        // Add any necessary assertions based on your application requirements
+    });
+
+    it('requests media library and camera permissions', async () => {
+        render(<App />);
+
+        // Wait for the asynchronous code to complete
+        await waitFor(() => {
+            expect(require('expo-image-picker').requestMediaLibraryPermissionsAsync).toHaveBeenCalled();
+            expect(require('expo-image-picker').requestCameraPermissionsAsync).toHaveBeenCalled();
+        });
+    });
+
+    // Add more test cases based on your application logic
 });

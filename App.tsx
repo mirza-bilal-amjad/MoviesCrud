@@ -1,4 +1,4 @@
-import {SafeAreaView,  StyleSheet, View} from 'react-native'
+import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native'
 import React, {useEffect} from 'react'
 import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer} from "@react-navigation/native";
@@ -7,7 +7,6 @@ import Detail from "./src/screens/detail/Detail";
 import {Provider} from "react-redux";
 import store from "./src/store/store";
 import * as ImagePicker from "expo-image-picker";
-import {StatusBar} from "expo-status-bar";
 
 
 const Stack = createStackNavigator()

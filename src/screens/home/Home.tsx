@@ -32,7 +32,7 @@ const Home = () => {
             <TouchableOpacity
                 onPress={() => setIsVisible(true)}
                 activeOpacity={0.7} style={{
-                backgroundColor: '#bcd70c',
+                backgroundColor: '#000',
                 height: 55,
                 width: 55,
                 right: 20,
@@ -42,7 +42,7 @@ const Home = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
-                <MaterialIcons name="add" size={30} color="#000"/>
+                <MaterialIcons name="add" size={30} color="#fff"/>
             </TouchableOpacity>
             <BottomPopUp isVisible={isVisible} onSubmit={() => {
             }} onClose={() => setIsVisible(false)}/>

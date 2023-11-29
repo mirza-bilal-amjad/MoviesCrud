@@ -30,6 +30,7 @@ const Detail = (props: DetailProps) => {
                 borderBottomRightRadius: 25,
                 borderBottomLeftRadius: 25,
                 padding: 20,
+
                 shadowOffset: {
                     width: 0,
                     height: 2,
