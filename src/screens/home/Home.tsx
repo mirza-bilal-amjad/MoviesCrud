@@ -37,7 +37,7 @@ const Home = () => {
                 width: 55,
                 right: 20,
                 position: 'absolute',
-                bottom: 35,
+                bottom: 20,
                 borderRadius: 15,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -53,7 +53,6 @@ export default Home
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#dedede",
-        paddingBottom: 10,
+        backgroundColor: "#fff",
     }
 })

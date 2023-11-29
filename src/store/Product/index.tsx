@@ -8,7 +8,7 @@ export const productSliceReducer = createSlice({
     name: 'productSliceReducer',
     initialState,
     reducers: {
-        setData: state => {
+        setData: (state, action) => {
             state.data = action.payload;
         },
         addProductItem: (state, action) => {

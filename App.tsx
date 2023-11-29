@@ -1,4 +1,4 @@
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native'
+import {SafeAreaView,  StyleSheet, View} from 'react-native'
 import React, {useEffect} from 'react'
 import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer} from "@react-navigation/native";
@@ -7,6 +7,7 @@ import Detail from "./src/screens/detail/Detail";
 import {Provider} from "react-redux";
 import store from "./src/store/store";
 import * as ImagePicker from "expo-image-picker";
+import {StatusBar} from "expo-status-bar";
 
 
 const Stack = createStackNavigator()
@@ -14,7 +15,6 @@ const Stack = createStackNavigator()
 const App = () => {
     useEffect(
         () => {
-            StatusBar.setBarStyle('dark-content'); // You can set 'light-content' as well
             (async () => {
                 const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -35,13 +35,13 @@ const App = () => {
                 flex: 1,
                 top: StatusBar.currentHeight,
             }}>
-                <StatusBar barStyle={'dark-content'} backgroundColor={'#dedede'} animated translucent/>
+                <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} animated translucent/>
                 <NavigationContainer>
                     <Stack.Navigator>
                         <Stack.Screen name="Home" component={Home} options={{
                             headerTitleStyle: {fontSize: 20, color: 'black', fontWeight: 'bold'},
                             headerStyle: {
-                                backgroundColor: '#dedede',
+                                backgroundColor: '#fff',
                                 shadowColor: 'transparent',
                             },
                         }}/>

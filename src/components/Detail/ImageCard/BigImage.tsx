@@ -20,15 +20,8 @@ interface ImageProps {
 const BigImage = (props: ImageProps) => {
     return (
         <View style={props.style}>
-            <Image source={props.sourceBig} style={props.image1Style} resizeMode={props.resizeMode}/>
 
-            <Text
-                style={{
-                    color: '#fff', fontSize: 15, fontWeight: 'bold',
-                    width: '70%', marginLeft: 10, marginTop: 20,
-                }}>{props?.title}</Text>
-
-
+            <View style={{height: 10}}/>
         </View>
     )
 }

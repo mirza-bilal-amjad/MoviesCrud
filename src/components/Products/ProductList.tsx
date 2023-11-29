@@ -38,6 +38,5 @@ export const ProductList = memo((props: ProductListProps) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingBottom: 10,
     }
 });

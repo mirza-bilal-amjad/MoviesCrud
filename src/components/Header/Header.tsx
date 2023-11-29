@@ -32,7 +32,7 @@ const Header = (props: HeaderProps) => {
                     navigation.goBack();
                 }}
             >
-                <MaterialIcons name={props.left} size={30} color="#bcd70c"/>
+                <MaterialIcons name={props.left} size={30} color={"#000"}/>
             </TouchableOpacity>
             <View style={{
                 position: 'absolute',

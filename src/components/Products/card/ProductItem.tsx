@@ -19,7 +19,7 @@ interface ProductItemProps {
 
 export const ProductItem = memo((props: ProductItemProps) => {
     const itemDesc = props?.item?.description?.length > 70 ? props?.item?.description?.slice(0, 70) + '...' : props?.item?.description;
-    const itemName = props?.item?.title?.length> 30 ? props?.item?.title?.slice(0, 30) + '...' : props?.item?.title
+    const itemName = props?.item?.title?.length > 30 ? props?.item?.title?.slice(0, 30) + '...' : props?.item?.title
     const itemImage = props?.item?.image;
     const dispatch = useDispatch();
     return (
@@ -37,7 +37,7 @@ export const ProductItem = memo((props: ProductItemProps) => {
                 onPress={() => dispatch(removeItem(props?.item?.id))}>
                 <Ionicons name={'trash-outline'} size={20} color={'#ff6666'}/>
             </TouchableOpacity>
-            <Image source={{uri: itemImage}} style={styles.image}/>
+            <Image source={{uri: itemImage}} resizeMode={'contain'} style={styles.image}/>
             <Text style={styles.title}>{itemName}</Text>
         </TouchableOpacity>
     );
@@ -53,14 +53,22 @@ const styles = StyleSheet.create({
         rowGap: 10,
         flex: 1,
         borderRadius: 25,
+        elevation: 5,
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowColor: '#000',
         // borderColor: colors.black, borderWidth: 1,
         backgroundColor: 'white'
     },
     image: {
         marginTop: 10,
-        width: 150,
-        height: 150,
-        resizeMode: "center",
+        width: 120,
+        height: 120,
+
     },
     title: {
         fontSize: 14,
