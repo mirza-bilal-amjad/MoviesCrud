@@ -14,6 +14,8 @@ const Stack = createStackNavigator()
 const App = () => {
     useEffect(
         () => {
+            StatusBar.setBarStyle('dark-content'); // You can set 'light-content' as well
+            StatusBar.setBackgroundColor('#dedede');
             (async () => {
                 const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
                 if (status !== 'granted') {

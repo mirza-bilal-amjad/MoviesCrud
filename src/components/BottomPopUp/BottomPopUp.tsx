@@ -1,5 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {Modal, TextInput, TouchableOpacity, View, Text, StyleSheet, Button, Image} from "react-native";
+import {
+    Modal,
+    TextInput,
+    TouchableOpacity,
+    View,
+    Text,
+    StyleSheet,
+    Button,
+    Image,
+    KeyboardAvoidingView, Platform, TouchableWithoutFeedback
+} from "react-native";
 import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {generateID, pickImage, takePicture} from "../../utils";
 import * as ImagePicker from 'expo-image-picker';
@@ -62,6 +72,10 @@ const BottomPopup = ({isVisible, onClose, onSubmit}: BottomPopUpProps) => {
             image: props.image?._j,
         }]
         dispatch(addProductItem(data))
+
+        setTitle(null);
+        setDescription(null);
+        setImage(null)
         onClose();
     }
 
@@ -77,145 +91,163 @@ const BottomPopup = ({isVisible, onClose, onSubmit}: BottomPopUpProps) => {
     }, []);
 
     return (
-        <Modal visible={isVisible} animationType="slide" transparent onRequestClose={onClose}>
-            <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
-                <View style={{
-                    paddingHorizontal: "7.5%",
-                    minHeight: 350,
-                    borderTopRightRadius: 30,
-                    borderTopLeftRadius: 30,
-                    backgroundColor: '#fff',
-                    padding: 50,
-                    elevation: 7,
-                }}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
 
-                    <View style={[styles.tiCont, {
-                        height: 45,
-                    }]}>
-                        <Ionicons style={{paddingRight: 5}} name={'person-circle-outline'} color={'black'}
-                                  size={25}/>
-                        <TextInput placeholderTextColor={'black'} value={title} textContentType='name'
-                                   keyboardType='default' autoCapitalize='none' autoComplete={"name"}
-                                   style={styles.textInput} placeholder='Title' cursorColor={'black'}
-                                   selectionColor={'gray'}
-                                   onChangeText={(value) => setTitle(value)}></TextInput>
-                    </View>
-                    {titleError ? <Text style={styles.error}>{titleError}</Text> : <Text> </Text>}
+        >
 
-                    <View style={[styles.tiCont, {
-                        minHeight: 45,
-                        maxHeight: 130,
-                    }]}>
-                        <Ionicons style={{paddingRight: 5}} name='barcode-outline' color={'black'}
-                                  size={25}></Ionicons>
-                        <TextInput placeholderTextColor={'black'}
-                                   multiline={true}
-                                   value={description} textContentType='nickname'
-                                   keyboardType='default'
-                                   secureTextEntry={true}
-                                   autoComplete={"postal-code"}
-                                   autoCapitalize='none' style={styles.textInput} cursorColor={'black'}
-                                   selectionColor={'gray'}
-                                   placeholder='Description'
-                                   onChangeText={(value) => setDescription(value)}></TextInput>
-                    </View>
-                    {descriptionError ? <Text style={styles.error}>{descriptionError}</Text> : <Text> </Text>}
-                    {!image ? <TouchableOpacity onPress={() => {
-                            setImage(
-                                takePicture()
-                            );
-                        }}
-                                                style={{
-                                                    justifyContent: 'center',
-                                                    height: 50,
-                                                    alignItems: 'center',
-                                                    borderTopLeftRadius: 15,
-                                                    borderTopRightRadius: 15,
-                                                    backgroundColor: '#dedede',
-                                                    borderWidth: 1,
-                                                }}
-                        >
-                            <Ionicons name={'camera-outline'} color={'black'} size={25}/>
-                        </TouchableOpacity> :
+            <Modal
+                visible={isVisible}
+                animationType="slide"
+                transparent
+                onRequestClose={onClose}
+
+            >
+                <TouchableWithoutFeedback onPress={close}>
+                    <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
                         <View style={{
-                            height: 50,
-                            backgroundColor: '#dedede',
-                            overflow: 'hidden',
-                            borderTopLeftRadius: 15,
-                            borderTopRightRadius: 15,
-                            borderWidth: 1,
-                        }}><Image source={{uri: image?._j}} style={{
-                            width: '100%', aspectRatio: 16 / 9,
-                            resizeMode: 'cover', alignSelf: 'center'
-                        }}/></View>
-                    }
-                    <TouchableOpacity onPress={() => {
-                        setImage(
-                            pickImage()
-                        );
-                    }}
-                                      style={{
-                                          justifyContent: 'center',
-                                          height: 30,
-                                          alignItems: 'center',
-                                          borderBottomLeftRadius: 15,
-                                          borderBottomRightRadius: 15,
-                                          borderBottomWidth: 1,
-                                          borderLeftWidth: 1,
-                                          borderRightWidth: 1,
-                                      }}
-                    >
-                        <Text style={{
-                            textDecorationLine: 'underline',
-                            textAlign: 'center',
+                            paddingHorizontal: "7.5%",
+                            minHeight: 350,
+                            borderTopRightRadius: 30,
+                            borderTopLeftRadius: 30,
+                            backgroundColor: '#fff',
+                            padding: 50,
+                            elevation: 7,
                         }}>
-                            Take a picture
-                        </Text>
-                    </TouchableOpacity>
-                    {imageError ? <Text style={styles.error}>{imageError}</Text> : <Text> </Text>}
 
-                    <View style={{flexDirection: "row-reverse", top: 10, justifyContent: 'space-between',}}>
+                            <View style={[styles.tiCont, {
+                                height: 45,
+                            }]}>
+                                <Ionicons style={{paddingRight: 5}} name={'person-circle-outline'} color={'black'}
+                                          size={25}/>
+                                <TextInput placeholderTextColor={'black'} value={title} textContentType='name'
+                                           keyboardType='default' autoCapitalize='none' autoComplete={"name"}
+                                           style={styles.textInput} placeholder='Title' cursorColor={'black'}
+                                           selectionColor={'gray'}
+                                           onChangeText={(value) => setTitle(value)}></TextInput>
+                            </View>
+                            {titleError ? <Text style={styles.error}>{titleError}</Text> : <Text> </Text>}
 
-                        <TouchableOpacity style={{
-                            justifyContent: 'center',
-                            height: 50,
-                            minWidth: 100,
-                            backgroundColor: '#dedede',
-                            alignItems: 'center',
-                            borderRadius: 35,
-                            borderColor: 'white',
-                            borderWidth: 3,
-                            elevation: 7,
-                            shadowColor: 'black',
-                        }} onPress={() => handleSubmit(
-                            {
-                                title: title,
-                                description: description,
-                                image: image,
+                            <View style={[styles.tiCont, {
+                                minHeight: 45,
+                                maxHeight: 130,
+                            }]}>
+                                <Ionicons style={{paddingRight: 5}} name='barcode-outline' color={'black'}
+                                          size={25}></Ionicons>
+                                <TextInput placeholderTextColor={'black'}
+                                           multiline={true}
+                                           value={description} textContentType='nickname'
+                                           keyboardType='default'
+                                           secureTextEntry={true}
+                                           autoComplete={"postal-code"}
+                                           autoCapitalize='none' style={styles.textInput} cursorColor={'black'}
+                                           selectionColor={'gray'}
+                                           placeholder='Description'
+                                           onChangeText={(value) => setDescription(value)}></TextInput>
+                            </View>
+                            {descriptionError ? <Text style={styles.error}>{descriptionError}</Text> : <Text> </Text>}
+                            {!image ? <TouchableOpacity onPress={() => {
+                                    setImage(
+                                        takePicture()
+                                    );
+                                }}
+                                                        style={{
+                                                            justifyContent: 'center',
+                                                            height: 50,
+                                                            alignItems: 'center',
+                                                            borderTopLeftRadius: 15,
+                                                            borderTopRightRadius: 15,
+                                                            overflow: 'hidden',
+                                                            backgroundColor: '#dedede',
+                                                            borderWidth: .2,
+                                                        }}
+                                >
+                                    <Ionicons name={'camera-outline'} color={'black'} size={25}/>
+                                </TouchableOpacity> :
+                                <View style={{
+                                    height: 50,
+                                    backgroundColor: '#dedede',
+                                    overflow: 'hidden',
+                                    borderTopLeftRadius: 15,
+                                    borderTopRightRadius: 15,
+                                    borderWidth: .2,
+                                }}><Image source={{uri: image?._j}} style={{
+                                    width: '100%', aspectRatio: 16 / 9,
+                                    resizeMode: 'cover', alignSelf: 'center'
+                                }}/></View>
                             }
-                        )} activeOpacity={0.87}>
-                            <Text style={{color: 'black', fontSize: 15, fontWeight: '700'}}>Submit</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{
-                            justifyContent: 'center',
-                            height: 50,
-                            minWidth: 100,
-                            backgroundColor: '#dedede',
-                            alignItems: 'center',
-                            borderRadius: 35,
-                            borderColor: 'white',
-                            borderWidth: 3,
-                            elevation: 7,
-                            shadowColor: 'black',
-                        }} onPress={close} activeOpacity={0.87}>
-                            <Text style={{color: 'black', fontSize: 15, fontWeight: '700'}}>Cancel</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => {
+                                setImage(
+                                    pickImage()
+                                );
+                            }}
+                                              style={{
+                                                  justifyContent: 'center',
+                                                  height: 30,
+                                                  alignItems: 'center',
+                                                  borderBottomLeftRadius: 15,
+                                                  borderBottomRightRadius: 15,
+                                                  borderBottomWidth: 0.2,
+                                                  borderLeftWidth: 0.2,
+                                                  borderRightWidth: 0.2,
+                                              }}
+                            >
+                                <Text style={{
+                                    textDecorationLine: 'underline',
+                                    textAlign: 'center',
+                                }}>
+                                    Take a picture
+                                </Text>
+                            </TouchableOpacity>
+                            {imageError ? <Text style={styles.error}>{imageError}</Text> : <Text> </Text>}
+
+                            <View style={{flexDirection: "row-reverse", top: 10, justifyContent: 'space-between',}}>
+
+                                <TouchableOpacity style={{
+                                    justifyContent: 'center',
+                                    height: 50,
+                                    minWidth: 100,
+                                    backgroundColor: '#dedede',
+                                    alignItems: 'center',
+                                    borderRadius: 35,
+                                    borderColor: 'white',
+                                    borderWidth: 3,
+                                    elevation: 7,
+                                    shadowColor: 'black',
+                                }} onPress={() => handleSubmit(
+                                    {
+                                        title: title,
+                                        description: description,
+                                        image: image,
+                                    }
+                                )} activeOpacity={0.87}>
+                                    <Text style={{color: 'black', fontSize: 15, fontWeight: '700'}}>Submit</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{
+                                    justifyContent: 'center',
+                                    height: 50,
+                                    minWidth: 100,
+                                    backgroundColor: '#dedede',
+                                    alignItems: 'center',
+                                    borderRadius: 35,
+                                    borderColor: 'white',
+                                    borderWidth: 3,
+                                    elevation: 7,
+                                    shadowColor: 'black',
+                                }} onPress={close} activeOpacity={0.87}>
+                                    <Text style={{color: 'black', fontSize: 15, fontWeight: '700'}}>Cancel</Text>
+                                </TouchableOpacity>
 
 
+                            </View>
+                        </View>
                     </View>
-                </View>
-            </View>
-        </Modal>
+                </TouchableWithoutFeedback>
+            </Modal>
+
+        </KeyboardAvoidingView>
+
     );
 };
 export default BottomPopup
@@ -229,11 +261,9 @@ const styles = StyleSheet.create({
         paddingRight: 13,
         paddingTop: 2,
         paddingBottom: 2,
-        backgroundColor: 'gray',
+        backgroundColor: '#dedede',
         borderRadius: 10,
         elevation: 7,
-        borderColor: 'gray',
-        borderWidth: 3,
     },
     textInput: {
 

@@ -19,7 +19,7 @@ interface ProductItemProps {
 
 export const ProductItem = memo((props: ProductItemProps) => {
     const itemDesc = props?.item?.description?.length > 70 ? props?.item?.description?.slice(0, 70) + '...' : props?.item?.description;
-    const itemName = props?.item?.title;
+    const itemName = props?.item?.title?.length> 30 ? props?.item?.title?.slice(0, 30) + '...' : props?.item?.title
     const itemImage = props?.item?.image;
     const dispatch = useDispatch();
     return (
@@ -45,11 +45,13 @@ export const ProductItem = memo((props: ProductItemProps) => {
 
 const styles = StyleSheet.create({
     container: {
-        margin: "3.5%",
+        margin: "3%",
         paddingHorizontal: 15,
         // elevation: 7,
+        alignItems: "center",
+        maxWidth: "44%",
         rowGap: 10,
-        width: "43%",
+        flex: 1,
         borderRadius: 25,
         // borderColor: colors.black, borderWidth: 1,
         backgroundColor: 'white'
