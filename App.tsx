@@ -15,11 +15,15 @@ const App = () => {
     useEffect(
         () => {
             StatusBar.setBarStyle('dark-content'); // You can set 'light-content' as well
-            StatusBar.setBackgroundColor('#dedede');
             (async () => {
                 const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
                 if (status !== 'granted') {
                     console.error('Permission to access media library was denied!');
+                }
+                const {status: status2} = await ImagePicker.requestCameraPermissionsAsync();
+                if (status2 !== 'granted') {
+                    console.error('Permission to access camera was denied!');
                 }
             })();
         }, []
