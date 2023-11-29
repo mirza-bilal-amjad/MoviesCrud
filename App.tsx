@@ -30,7 +30,7 @@ const App = () => {
 
     return (
         <Provider store={store}>
-            <SafeAreaView style={{
+            <SafeAreaView testID={'root-app-component'} style={{
                 flex: 1,
                 top: StatusBar.currentHeight,
             }}>

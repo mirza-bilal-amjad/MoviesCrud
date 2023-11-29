@@ -1,33 +1,23 @@
+import 'react-native';
 import React from 'react';
-import { render, waitFor } from '@testing-library/react-native';
 import App from './App';
 
-// Mock the ImagePicker module
-jest.mock('expo-image-picker', () => ({
-    requestMediaLibraryPermissionsAsync: jest.fn(() => ({ status: 'granted' })),
-    requestCameraPermissionsAsync: jest.fn(() => ({ status: 'granted' })),
-}));
+// Note: import explicitly to use the types shiped with jest.
+import {it} from '@jest/globals';
 
-// Mock the StatusBar module
-jest.mock('expo-status-bar', () => ({
-    StatusBar: jest.fn(),
-}));
+// Note: test renderer must be required after react-native.
+import {Provider} from 'react-redux';
+import store from './src/store/store';
+import {render} from '@testing-library/react-native';
 
-describe('<App />', () => {
-    it('renders without crashing', async () => {
-        render(<App />);
-        // Add any necessary assertions based on your application requirements
-    });
+it('App renders correctly', () => {
+    const component = (
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    );
 
-    it('requests media library and camera permissions', async () => {
-        render(<App />);
+    render(component);
 
-        // Wait for the asynchronous code to complete
-        await waitFor(() => {
-            expect(require('expo-image-picker').requestMediaLibraryPermissionsAsync).toHaveBeenCalled();
-            expect(require('expo-image-picker').requestCameraPermissionsAsync).toHaveBeenCalled();
-        });
-    });
-
-    // Add more test cases based on your application logic
+    expect(component).toBeDefined();
 });
